@@ -10,7 +10,9 @@ find_package(cppzmq)
 set(SOURCES
 	main.cpp
     cppzmq/zmq.hpp
-    libzmq/zmq.h
+    libzmq/include/zmq.h
+    libzmq/include/zmq_utils.h
+
     client/client.h
     dependencies/depend.h
     render/render.h
@@ -18,17 +20,16 @@ set(SOURCES
 
 add_executable(serverClient ${SOURCES})
 
-
 target_link_directories(${PROJECT_NAME} PUBLIC
-cppzmq
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-cppzmq
+cppzmq-static
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
-    ${CMAKE_DL_LIBS}
+cppzmq-static
+${CMAKE_DL_LIBS}
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE $<$<COMPILE_LANGUAGE:MSVC>:
