@@ -1,5 +1,5 @@
 #pragma once
-
+#include <stdint.h>
 struct float3
 {
 	float x;
@@ -11,4 +11,27 @@ struct float2
 {
 	float x;
 	float y;
+};
+
+const int PackageSize = 5000;
+//int ClientCount = 0;
+enum class ClientMsg : uint8_t
+{
+	Send,
+	Stop,
+	Deactivate,
+	None
+};
+enum class SendOptions : uint8_t
+{
+	SmallData,
+	FileInBytes,
+	Image,
+	ImageP1,
+	Count
+};
+enum class Result : uint8_t
+{
+	FailedToSend = 0,
+	Succeeded = 1,
 };

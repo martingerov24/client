@@ -8,14 +8,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(cppzmq)
 
 set(SOURCES
-	main.cpp
+	#code
+    main.cpp
+    client/client.h
+    client/client.cpp
+    #zmq dependencies
     cppzmq/zmq.hpp
     libzmq/include/zmq.h
     libzmq/include/zmq_utils.h
-
-    client/client.h
+    #dependencies
+    dependencies/json.hpp
+    dependencies/stbi_load.h
     dependencies/depend.h
-    render/render.h
+    dependencies/stbi_write.h
+    #json creating
+    Json/Json.h 
+    Json/Json.cpp
 )
 
 add_executable(serverClient ${SOURCES})
