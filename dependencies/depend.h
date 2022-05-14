@@ -12,7 +12,11 @@ struct float2
 	float x;
 	float y;
 };
-
+enum class JsonSend : uint8_t
+{
+	InitImage = 0,
+	CameraLookAt = 1
+};
 const int PackageSize = 5000;
 //int ClientCount = 0;
 enum class ClientMsg : uint8_t
