@@ -146,16 +146,16 @@ Result Client::sendCamera(JsonSend sendOpt)
 {
     std::string send = json.jsonShare(sendOpt);
 
-    for (int i = 0; i < 10; ++i) {
+    zmq::message_t query(send.length());
+    memcpy(query.data(), (send.c_str()), (send.size()));
+    socket.send(query);
 
-        zmq::message_t query(send.length());
-        memcpy(query.data(), (send.c_str()), (send.size()));
-        socket.send(query);
-
-        zmq::message_t reply;
-        socket.recv(reply);
-        auto reply_str = std::string(static_cast<char*>(reply.data()), reply.size());
-        std::cout << reply_str << std::endl;
-    }
+    zmq::message_t reply;
+    socket.recv(reply);
+    auto reply_str = std::string(static_cast<char*>(reply.data()), reply.size());
+    std::cout << reply_str << std::endl;
+	
+	if (reply_str.empty())
+		return Result::FailedToSend;
     return Result::Succeeded;
 }
