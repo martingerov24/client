@@ -17,7 +17,7 @@ enum class JsonSend : uint8_t
 	InitImage = 0,
 	CameraLookAt = 1
 };
-const int PackageSize = 5000;
+const int PackageSize = 2000;
 //int ClientCount = 0;
 enum class ClientMsg : uint8_t
 {

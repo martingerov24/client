@@ -1,6 +1,6 @@
 #include <iostream>
 #include "cppzmq/zmq.hpp"
-#include "../client/client.h"
+#include "client/client.h"
 
 int main()
 {
