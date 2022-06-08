@@ -22,6 +22,7 @@ public:
 	Result sendCamera(
 		JsonSend sendOpt
 	);
+	Result sendHTTPFlag(const HTTPReq request);
 	Result sendBuffer(
 		const std::string& filename, 
 		bool isPhoto

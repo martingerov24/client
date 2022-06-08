@@ -12,30 +12,24 @@ struct float2
 	float x;
 	float y;
 };
+
 enum class JsonSend : uint8_t
 {
 	InitImage = 0,
 	CameraLookAt = 1
 };
-const int PackageSize = 2000;
-//int ClientCount = 0;
-enum class ClientMsg : uint8_t
+
+enum class HTTPReq : uint8_t
 {
-	Send,
-	Stop,
-	Deactivate,
-	None
+	Get,
+	Post,
+	Shutdown
 };
-enum class SendOptions : uint8_t
-{
-	SmallData,
-	FileInBytes,
-	Image,
-	ImageP1,
-	Count
-};
+
 enum class Result : uint8_t
 {
 	FailedToSend = 0,
 	Succeeded = 1,
 };
+
+const int PackageSize = 2000;

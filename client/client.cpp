@@ -87,6 +87,10 @@ bool Client::splitAndSendPackage(
 	}
     return true;
 }
+Result Client::sendHTTPFlag(const HTTPReq request)
+{
+    
+}
 
 Result Client::sendBuffer(const std::string& filename,
     bool isPhoto
@@ -101,6 +105,9 @@ Result Client::sendBuffer(const std::string& filename,
     else{
         succeededReading = readingFiles(filename, output);
     }
+
+    //Send funciton here
+
 
     return Result::Succeeded;
 }

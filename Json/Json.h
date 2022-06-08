@@ -6,25 +6,15 @@ struct JsonFile
 {
 	// in reserve i have added 5 jsons
 	JsonFile() = default;
+	JsonFile(HTTPReq request, int32_t sizeOfFile);
 	std::string jsonShare(JsonSend json);
 	~JsonFile() = default;
 private:
 
-	std::vector<nlohmann::json> premadeJsons = {
-	//initCamera
+	std::vector<nlohmann::json> premadeJsons =
 	{
-	  {"width", 800},
-	  {"height", 600},
-	  {"samplesPerPixel", 4}
-	},
-	//cameralookAt
-	{
-	  {"verticalFov",90},
-	  {"lookFromX", -1},
-	  {"lookFromY",  5},
-	  {"lookFromZ", -1},
-	  {"lookAtX", 0},
-	  {"lookAtY", 0},
-	  {"lookAtZ", 0}
-	} };
+		{"Get", 0},
+		{"Post", 0},
+		{"Shotwdown", 0}
+	};
 };
