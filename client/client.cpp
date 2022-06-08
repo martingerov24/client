@@ -2,8 +2,9 @@
 #include <sys/stat.h>
 #include <fstream>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stbi_load.h"
+//do not need them for now
+// 		#define STB_IMAGE_IMPLEMENTATION
+// 		#include "stbi_load.h"
 
 int32_t GetFileSize(
 	const char* filename
@@ -11,13 +12,11 @@ int32_t GetFileSize(
     struct stat stat_buf;
     int rc = stat(filename, &stat_buf);
     return rc == 0 ? stat_buf.st_size : -1;
-    if(filename == nullptr)
-    {
+    if(filename == nullptr) {
         return -1;
     }
     FILE *p_file = fopen(filename,"rb");;
-    if(p_file == nullptr)
-    {
+    if(p_file == nullptr) {
         return -2;
     }
     fseek(p_file,0,SEEK_END);
