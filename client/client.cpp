@@ -15,7 +15,7 @@ int32_t GetFileSize(
     if(filename == nullptr) {
         return -1;
     }
-    FILE *p_file = fopen(filename,"rb");;
+    FILE *p_file = fopen(filename,"rb");
     if(p_file == nullptr) {
         return -2;
     }
@@ -24,7 +24,6 @@ int32_t GetFileSize(
     fclose(p_file);
     return size;
 }
-
 
 void Client::connect(
     const std::string& port
