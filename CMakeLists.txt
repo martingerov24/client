@@ -24,7 +24,7 @@ set(SOURCES
     dependencies/depend.h
     dependencies/stbi_write.h
     #json creating
-    Json/Json.h 
+    Json/Json.h
     Json/Json.cpp
 )
 
@@ -34,8 +34,10 @@ target_link_directories(${PROJECT_NAME} PUBLIC
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-cppzmq-static
-# ${ZeroMQ_INCLUDE_DIR}
+    cppzmq-static
+    ${CMAKE_CURRENT_SOURCE_DIR}/Json
+    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies
+    ${CMAKE_CURRENT_SOURCE_DIR}/client
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC

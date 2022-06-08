@@ -13,12 +13,6 @@ struct float2
 	float y;
 };
 
-enum class JsonSend : uint8_t
-{
-	InitImage = 0,
-	CameraLookAt = 1
-};
-
 enum class HTTPReq : uint8_t
 {
 	Get,
