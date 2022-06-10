@@ -32,7 +32,6 @@ void Client::connect(
 };
 
 Client::~Client() {
-	message.empty();
 	socket.close();
 	context.close();
 }
@@ -75,14 +74,13 @@ bool Client::splitAndSendPackage(
 ) {
 	//TODO: add package special number
 	int totalPackagesToSend = (package.size() + PackageSize - 1) / PackageSize;
-	int* arr = new int[PackageSize];
 	// zmq::message_t msg(&arr, PackageSizeInBytes, &myFreeFunc, nullptr);
-	zmq_msg_t msg;
-	zmq_msg_init(&msg);
-	zmq_msg_init_data(&msg, &arr, PackageSizeInBytes, myFreeFunc, nullptr);
+	// zmq_msg_t msg;
+	// zmq_msg_init(&msg);
+	// zmq_msg_init_data(&msg, &arr, PackageSizeInBytes, myFreeFunc, nullptr);
 	Dprintf("%d -> iterations", totalPackagesToSend);
-	int retValue = zmq_send(&socket, zmq_msg_data(&msg), zmq_msg_size(&msg), ZMQ_SNDMORE);
-	Dprintf("%d -> ret value", retValue);
+	int error = zmq_send(&socket, package.data(), package.size(), ZMQ_NOBLOCK);
+	Dprintf("%d -> ret value", error);
 	// for (int i = 0; i < totalPackagesToSend ; i++) {
 	// 	// zmq::send_result_t sended = socket.send(
 	// 	// 	package[i*PackageSize],
@@ -95,7 +93,7 @@ bool Client::splitAndSendPackage(
 	// 	int retValue = zmq_send(&socket, &msg, PackageSizeInBytes+1, ZMQ_NOBLOCK);
 	// 	// zmq::send_result_t sended = socket.send(msg.data(), msg.size()*sizeof(int32_t), ZMQ_DONTWAIT);
 	// 	Dprintf("%d end funciton returned", retValue);
-	// 	zmq_sleep(1);
+	zmq_sleep(1);
 	// 	socket.recv(&msg);
 	// 	Dprintf("msg in send loop received %s", msg.to_string().c_str());
 	// }
@@ -108,7 +106,7 @@ bool Client::sendHTTPFlag(
 ) {
 	std::string sendMsg = JsonFile::prepareHTTPReqPost(request, sizeInBytes);
 	int rc = socket.send(sendMsg.data(), sendMsg.size());
-	if (rc < 0) {
+	if (rc != 0) {
 		Dprintf("socket send returned -> %d", rc);
 		return false;
 	}
@@ -118,13 +116,8 @@ bool Client::sendHTTPFlag(
 Result Client::sendBuffer(
 	const std::string& filename
 ) {
-    std::vector<int32_t> output(200*100, 1);
+    std::vector<int32_t> output(100, 1);
 	Dprintf("the output size is --> %d", output.size()*sizeof(int32_t));
-    // bool succeeded = readingFiles(filename, output);
-	// if (succeeded == false) {
-	// 	printf("could not read the file!\n");
-	// 	return Result::FailedToSend;
-	// }
 
 	bool succeeded = sendHTTPFlag(
 		HTTPReq::Post,
@@ -132,14 +125,14 @@ Result Client::sendBuffer(
 	);
 	if (succeeded == false) {
 		Dprintf("%d could not send Http flag", 0);
-		Result::FailedToSend;
+		return Result::FailedToSend;
 	}
 
 	zmq::message_t msg;
 	socket.recv(msg); // test method, to see if there is still a connection
 	Dprintf("%s -> recv messsage", msg.to_string().c_str());
 
-	succeeded = splitAndSendPackage(output);
+	bool succeeded = splitAndSendPackage(output);
     if (succeeded == false) {
 		Dprintf("%d -> could not split and send package", 0);
 		return Result::FailedToSend;

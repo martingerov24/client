@@ -28,5 +28,4 @@ public:
 private:
 	zmq::context_t context{ 1 };
 	zmq::socket_t socket{ context, zmq::socket_type::req };
-	zmq::message_t message;
 };
