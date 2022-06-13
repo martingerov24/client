@@ -74,29 +74,15 @@ bool Client::splitAndSendPackage(
 ) {
 	//TODO: add package special number
 	int totalPackagesToSend = (package.size() + PackageSize - 1) / PackageSize;
-	// zmq::message_t msg(&arr, PackageSizeInBytes, &myFreeFunc, nullptr);
-	// zmq_msg_t msg;
-	// zmq_msg_init(&msg);
-	// zmq_msg_init_data(&msg, &arr, PackageSizeInBytes, myFreeFunc, nullptr);
 	Dprintf("%d -> iterations", totalPackagesToSend);
-	int error = zmq_send(&socket, package.data(), package.size(), ZMQ_NOBLOCK);
-	Dprintf("%d -> ret value", error);
-	for (int i = 0; i < totalPackagesToSend ; i++) {
-		// zmq::send_result_t sended = socket.send(
-		// 	package[i*PackageSize],
-		// 	PackageSizeInBytes,
-		// 	ZMQ_DONTWAIT
-		// );
-	    zmq::message_t msg(PackageSizeInBytes);
-		memcpy(msg.data(), &package, PackageSizeInBytes+1);
-
-		int retValue = zmq_send(&socket, &msg, PackageSizeInBytes+1, ZMQ_NOBLOCK);
-		// zmq::send_result_t sended = socket.send(msg.data(), msg.size()*sizeof(int32_t), ZMQ_DONTWAIT);
-		Dprintf("%d end funciton returned", retValue);
-		zmq_sleep(1);
-		socket.recv(&msg);
-		Dprintf("msg in send loop received %s", msg.to_string().c_str());
+	socket.send(zmq::buffer(package.data(), package.size() * sizeof(int32_t)),zmq::send_flags::none);
+	zmq::message_t msg;
+	socket.recv(msg, zmq::recv_flags::none);
+	if(msg.data() == nullptr){
+		Dprintf("did not recieve any message %d",0);
+		return false;
 	}
+	Dprintf("%s", msg.to_string().c_str());
     return true;
 }
 
@@ -105,11 +91,8 @@ bool Client::sendHTTPFlag(
 	int sizeInBytes
 ) {
 	std::string sendMsg = JsonFile::prepareHTTPReqPost(request, sizeInBytes);
-	int rc = socket.send(sendMsg.data(), sendMsg.size());
-	if (rc != 0) {
-		Dprintf("socket send returned -> %d", rc);
-		return false;
-	}
+	socket.send(sendMsg.data(), sendMsg.size());
+	//TODO: see how to check
 	return true;
 }
 
