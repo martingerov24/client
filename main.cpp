@@ -1,13 +1,11 @@
 #include <iostream>
 #include "cppzmq/zmq.hpp"
-#include "../client/client.h"
+#include "client.h"
 
 int main()
 {
 	Client client;
-	client.connect("tcp://localhost:5555");
-	client.sendCamera(JsonSend::InitImage);// working motherFuckersss
-	client.sendCamera(JsonSend::CameraLookAt);
-
+	client.connect("tcp://127.0.0.1:5555");
+	client.sendBuffer("something.txt"); // the text file is not used for now
 	return 0;
 }
