@@ -11,19 +11,6 @@
 #define DebugPuts(MSG) Dprintf("%s", MSG)
 #endif
 
-struct float3
-{
-	float x;
-	float y;
-	float z;
-};
-
-struct float2
-{
-	float x;
-	float y;
-};
-
 enum class HTTPReq : uint8_t
 {
 	Get,

@@ -2,10 +2,6 @@
 #include <sys/stat.h>
 #include <fstream>
 
-//do not need them for now
-// 		#define STB_IMAGE_IMPLEMENTATION
-// 		#include "stbi_load.h"
-
 int32_t GetFileSize(
 	const char* filename
 ) {
@@ -60,15 +56,6 @@ bool readingFiles(
 	return true;
 }
 
-void myFreeFunc(void* arr, void* thing)
-{
-	if (arr == nullptr){
-		return;
-	}
-
-	delete [] reinterpret_cast<int*>(arr);
-}
-
 bool Client::splitAndSendPackage(
     std::vector<int32_t>& package
 ) {
@@ -99,7 +86,7 @@ bool Client::sendHTTPFlag(
 Result Client::sendBuffer(
 	const std::string& filename
 ) {
-    std::vector<int32_t> output(100, 1);
+    std::vector<int32_t> output(200*100, 1);
 	Dprintf("the output size is --> %d", output.size()*sizeof(int32_t));
 
 	bool succeeded = sendHTTPFlag(
@@ -112,7 +99,7 @@ Result Client::sendBuffer(
 	}
 
 	zmq::message_t msg;
-	socket.recv(msg); // test method, to see if there is still a connection
+	socket.recv(msg); // -> see if there is still a connection
 	Dprintf("%s -> recv messsage", msg.to_string().c_str());
 
 	succeeded = splitAndSendPackage(output);
