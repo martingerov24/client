@@ -79,7 +79,6 @@ bool Client::sendHTTPFlag(
 ) {
 	std::string sendMsg = JsonFile::prepareHTTPReqPost(request, sizeInBytes);
 	socket.send(sendMsg.data(), sendMsg.size());
-	//TODO: see how to check
 	return true;
 }
 

@@ -11,21 +11,23 @@ find_package(cppzmq)
 
 set(SOURCES
 	#code
-    main.cpp
-    client/client.h
-    client/client.cpp
+    src/main.cpp
+    src/Client.h
+    src/Client.cpp
+    src/Server.h
+    src/Server.cpp
     #zmq dependencies
     cppzmq/zmq.hpp
     libzmq/include/zmq.h
     libzmq/include/zmq_utils.h
     #dependencies
-    dependencies/json.hpp
-    dependencies/stbi_load.h
-    dependencies/depend.h
-    dependencies/stbi_write.h
+    src/dpd/json.hpp
+    src/dpd/stbi_load.h
+    src/dpd/depend.h
+    src/dpd/stbi_write.h
     #json creating
-    Json/Json.h
-    Json/Json.cpp
+    src/Json.h
+    src/Json.cpp
 )
 
 add_executable(serverClient ${SOURCES})
@@ -35,16 +37,13 @@ target_link_directories(${PROJECT_NAME} PUBLIC
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     cppzmq-static
-    ${CMAKE_CURRENT_SOURCE_DIR}/Json
-    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies
-    ${CMAKE_CURRENT_SOURCE_DIR}/client
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/dpd
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
 cppzmq-static
-# ${ZeroMQ_LIBRARY}
 ${CMAKE_DL_LIBS}
 )
 
-target_compile_options(${PROJECT_NAME} PRIVATE $<$<COMPILE_LANGUAGE:MSVC>:
-                       >)
+target_compile_options(${PROJECT_NAME} PRIVATE $<$<COMPILE_LANGUAGE:MSVC>:>)
